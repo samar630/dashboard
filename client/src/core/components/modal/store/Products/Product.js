@@ -3,9 +3,7 @@ import { Typography, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { mockDataTeam } from "../../../../data/mockData";
 import {  useDispatch, useSelector } from 'react-redux';
-import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
-import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+
 import Header from '../../../topbar/Header'
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -13,21 +11,24 @@ import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import AnimatedModal from './modal';
 import { Box, Chip, Stack } from "@mui/material"
-import { deleteProducts } from '../../../../redux/actions/index';
+
 const Product = () => {
   const [clickedRow, setClickedRow] = React.useState();
 
-  function onButtonClick(e, row) {
-    e.preventDefault();
+  function onButtonClick( id) {
      dispatch(
           {
             type: 'DELETE_REQUESTED',
-            payload: { id: row?._id, loading: false },
+            payload: { payload: id, loading: false },
         })  
        setTimeout(() =>{
             
        },3000)
    
+      }
+      function onActionUpdate (e, row){
+        e.preventDefault();
+          <AnimatedModal  />
       }
 
   const [platform, setPlatform] = useState([])
@@ -36,7 +37,7 @@ const Product = () => {
   const [searchText, setSearchText] = useState('');
   const [rowProduct, setRowProduct]= useState('')
   const [rows, setRows] = useState([]);
-  const product = useSelector((state) => (state.products));
+  const product = useSelector((state) => (state.products?.products?.products));
   const dispatch = useDispatch();
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
@@ -50,7 +51,7 @@ const handleClose = () => {
     setOpen(false);
 };
 
-    const columns = useMemo ( () =>  [
+    const columns = useMemo ( () =>  [  
       { field: "id", headerName: "ID" },
       {
         field: "productName",
@@ -59,7 +60,6 @@ const handleClose = () => {
         align: "left",
        
       },
-   
       {
         field: "productQuantity",
         headerName: "product Quantity",
@@ -68,58 +68,80 @@ const handleClose = () => {
         align: "left",
         flex:0.3
       },
+      {
+        field: "materialsWeight?.materials_name",
+        headerAlign: "center",
+        align: "center",
+        headerName: "materials Name",
+        flex: 0.6,
+        renderCell: (params) => (
+          <Stack direction="row" spacing={0.25}>
+            {params?.row?.materialsWeight.map(( x, index) => (
+              <Chip label={x?.materials_name} />
+            ))}
+          </Stack>
+        ),
+      },
+      {
+        field: "materialsWeight?.number_of_service",
+        headerName: "Number Of service",
+        headerAlign: "center",
+        align: "center",
+        flex: 0.3,
+        renderCell: (params) => (
+          <Stack direction="row" spacing={0.25}>
+            {params?.row?.materialsWeight.map(( x, index) => (
+              <Chip label={x?.number_of_service} />
+            ))}
+          </Stack>
+        ),
+      },
       // {
-      //   field: "materialsWeight?.materials_name",
-      //   headerAlign: "center",
-      //   align: "center",
-      //   headerName: "materials Name",
-      //   flex: 0.6,
-      //   valueOptions: [...new Set(product.map((o) => o?.materialsWeight).flat())],
-      //   renderCell: (params) => (
-      //     <Stack direction="row" spacing={0.25}>
-      //       {params.row.materialsWeight.map(( x, index) => (
-      //         <Chip label={x?.materials_name} />
-      //       ))}
-      //     </Stack>
-      //   ),
-      // },
-      // {
-      //   field: "materialsWeight?.number_of_service",
-      //   headerName: "Number Of service",
+      //   field: "Delete",
+      //   headerName: "Delete",
+      //   type:'actions',
       //   headerAlign: "center",
       //   align: "center",
       //   flex: 0.3,
-      //   valueOptions: [...new Set(product.map((o) => o?.materialsWeight).flat())],
       //   renderCell: (params) => (
       //     <Stack direction="row" spacing={0.25}>
-      //       {params.row.materialsWeight.map(( x, index) => (
-      //         <Chip label={x?.number_of_service} />
-      //       ))}
+      //        <Button onClick={console.log(params, 'xxxxxxxx')}>
+      //           Delete
+      //         </Button>
       //     </Stack>
       //   ),
       // },
-      {
-     field: 'actions',
-    type: 'actions',
-    headerName: 'Actions',
-    flex: 0.2,
-    getActions: (params) => [
-    <Button
-    onClick={(e) => onButtonClick(e, params.row)}
-    variant="contained"
-  >
-    Delete
-  </Button>
-  ],
-      },
-      {
-        field: "action",
-        headerName: "action",
-        headerAlign: "left",
-        align: "left",
-        renderCell: 
-        (params) => <AnimatedModal {...{ params }} />,
-      }
+  //     {
+  //    field: 'Delete',
+  //     type: 'actions',
+  //   headerName: 'Delete',
+  //   flex: 0.2,
+  //   getActions: (params) => [
+  //   <Button
+  //   onClick={(e) => onButtonClick(e, params.row._id)}
+  //   variant="contained"
+  // >
+  
+  //   Delete
+  // </Button>
+  
+  //    ],
+  //     },
+  //     {
+  //       field: "Edits",
+  //       headerName: "Edits",
+  //       type:'actions',
+  //       headerAlign: "left",
+  //       align: "left",
+  //       getActions: (params) => [
+  //         <Button
+  //         onClick={(e) => onActionUpdate(e, params.row)}
+  //         variant="contained"
+  //       >
+  //         Update
+  //       </Button>
+  //       ],
+  //     }
     ],[]) 
      function escapeRegExp(value) {
         return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
@@ -134,6 +156,7 @@ const handleClose = () => {
       setRows(filteredRows);
   };
   useEffect(() =>{
+
   console.log(clickedRow, 'clickedRow')
   },[product]  )
   return (

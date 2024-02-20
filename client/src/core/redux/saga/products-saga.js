@@ -1,10 +1,12 @@
  import { put, call,takeLatest, takeEvery } from 'redux-saga/effects';
-import { CREATE, CREATE_REQUESTED, DELETE, DELETE_REQUESTED, FETCH_ALL_REQUESTED, SET_LOADING, UPDATE, UPDATE_REQUESTED } from '../constants/actionTypes';
+import { CREATE, CREATE_REQUESTED, DELETE, DELETE_REQUESTED, FETCH_ALL, FETCH_ALL_REQUESTED, SET_LOADING, UPDATE, UPDATE_REQUESTED } from '../constants/actionTypes';
 import { deleteProducts, fetchProduct, updateProducts } from '../actions';
 
   function* getProducts(){
+    yield put({type: SET_LOADING})
     const products = yield call(fetchProduct)
-    yield put({type:SET_LOADING, payload: products })
+    console.log(products, 'productsSaga')
+    yield put({type:FETCH_ALL, payload: {products} })
   }
 
   function* createProduct({payload}){
@@ -20,10 +22,10 @@ import { deleteProducts, fetchProduct, updateProducts } from '../actions';
     yield put({type: UPDATE, payload: {update}})
   }
 
-  function* deleteProduct({payload}){
+  function* deleteProduct(id){
     yield put({type: SET_LOADING})
-    const product = yield call(deleteProducts, payload)
-    yield put({type: DELETE, payload: product})
+    const product = yield call(deleteProducts, id)
+    yield put({type: DELETE, payload: {product}})
   }
 
   export default function* productSaga() {

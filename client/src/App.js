@@ -16,7 +16,7 @@ const App = () => {
     let persistor = persistStore(store);
     useEffect(() => {
        dispatch({
-        type:'FETCH_ALL_REQUESTED',payload:false
+        type:'FETCH_ALL_REQUESTED'
        })
     }, []);
 

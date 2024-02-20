@@ -17,7 +17,8 @@ const reducerProduct = (state = initialState, {type, payload}) => {
       case FETCH_ALL:
         return {
           ...state,
-        loading: false
+          products: payload,
+          loading: false
         }
         case CREATE:
           return {
@@ -34,7 +35,7 @@ const reducerProduct = (state = initialState, {type, payload}) => {
       case DELETE:
         return {
           ...state,
-          products : state?.products?.filter((products => products.id !== payload)),
+          products : payload,
           loading: false
         }
      
