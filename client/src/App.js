@@ -1,6 +1,6 @@
-import React, {  useEffect } from 'react';
-import useStyles from './styles';
-import {useDispatch} from "react-redux";
+import React, {  useEffect, useState } from 'react';
+
+import {useDispatch, useSelector} from "react-redux";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Sidebar from './core/components/topbar/sidebar';
 import Topbar from './core/components/topbar/Topbar';
@@ -10,39 +10,59 @@ import { Provider } from 'react-redux'
 import store from './core/redux/store/store'
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react';
+import Spinner from './core/spinner/spinner'
 const App = () => {
     const dispatch = useDispatch();
-    // const classes = useStyles();
     let persistor = persistStore(store);
-    useEffect(() => {
-       dispatch({
-        type:'FETCH_ALL_REQUESTED'
-       })
-    }, []);
-
-    return (
-    //   <Provider store={store}>
-    //     <PersistGate loading={null} persistor={persistor} >
-       
-    //   </PersistGate>
-    // </Provider>
+    const loading = useSelector((state) => state?.products?.loading)
+    const product = useSelector((state) => (state.products?.products?.products));
+    const [products, setproducts] = useState('')   
+    const [loadingPage, setLoadingPage] = useState(true); 
+    function dispachAction() {
+      const fetchdata = async () =>{
+        try{
+          dispatch({
+            type:'FETCH_ALL_REQUESTED'
+           })
+        } catch (error){
+          console.log("An error occurred while loading dashboard")
+        }
+      };
+      fetchdata().then(() =>{
+        setTimeout(() =>{
+          setLoadingPage(false)
+        },4000)
      
-     <BrowserRouter>
-     <div className='app'>
-     <Topbar/>
-     <main className='content flex ' >
-     <div>
-     <Sidebar/>
-     </div>
-     <div className='w-full'>
-     <Routes>
-           <Route path='/products' element={<Product/>} />
-     </Routes>
+      }).catch((error)=>{
+        throw new Error('An error occurred while loading dashboard');
+      })
+    }
+   useEffect(()=>{
+     console.log(loadingPage, 'loading')
+     dispachAction()
+   },[loadingPage])
+    return (
+   <div>
+     {loadingPage ? <Spinner /> : 
+           <BrowserRouter>
+           <div className='app'>
+           <Topbar/>
+           <main className='content flex ' >
+           <div>
+          <Sidebar/>
+          </div>
+         {/* {loading ?   <div className='w-full'>
+           
+         </div> : 'test'} */}
+          <Routes>
+             <Route path='/products' element={<Product product={product}/>} />
+            </Routes>
+         </main>
        </div>
-     </main>
-  </div>
-  </BrowserRouter>
-    );
+       </BrowserRouter>
+     }
+   </div>
+    )
 };
 
 export default App;

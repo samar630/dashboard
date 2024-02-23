@@ -3,7 +3,6 @@ import { Typography, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { mockDataTeam } from "../../../../data/mockData";
 import {  useDispatch, useSelector } from 'react-redux';
-
 import Header from '../../../topbar/Header'
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -12,9 +11,14 @@ import IconButton from '@mui/material/IconButton';
 import AnimatedModal from './modal';
 import { Box, Chip, Stack } from "@mui/material"
 
-const Product = () => {
-  const [clickedRow, setClickedRow] = React.useState();
-
+const Product = (props) => {
+  const dispatch = useDispatch()
+  const [clickedRow, setClickedRow] = useState();
+  const [products, setProduct] = useState('');
+  const [loadingPage, setLoadingPage] = useState('');
+  const loading = useSelector((state) => state?.products?.loading)
+  const product = useSelector((state) => (state.products?.products?.products));
+  
   function onButtonClick( id) {
      dispatch(
           {
@@ -31,14 +35,17 @@ const Product = () => {
           <AnimatedModal  />
       }
 
+ 
+      useEffect(() => {
+     
+     }, []);
+
   const [platform, setPlatform] = useState([])
   const [buttonHandle, setButtonHandle] = useState('add product')
   const [openModal, setOpenModal] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [rowProduct, setRowProduct]= useState('')
   const [rows, setRows] = useState([]);
-  const product = useSelector((state) => (state.products?.products?.products));
-  const dispatch = useDispatch();
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     return updatedRow;
@@ -157,7 +164,10 @@ const handleClose = () => {
   };
   useEffect(() =>{
 
+   console.log(loading, '00000')
+   console.log(products, '111111')
   console.log(clickedRow, 'clickedRow')
+
   },[product]  )
   return (
 
@@ -235,7 +245,7 @@ const handleClose = () => {
           },
         }}
            autoPageSize  
-           rows={product} 
+           rows={props?.product} 
            getRowId={(product) => product._id} 
            columns={columns} xs 
            editMode='row'
@@ -243,11 +253,12 @@ const handleClose = () => {
           /> 
 
         : <DataGrid checkboxSelection 
+        
            getRowId={(product) => product._id} columns={columns} xs 
         editMode='row'
            
            experimentalFeatures={{ newEditingApi: true }}
-          rows={product}  />}
+          rows={props?.product}  />}
     </Box>
   </Box>
   )
