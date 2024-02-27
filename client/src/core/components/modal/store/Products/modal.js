@@ -21,8 +21,9 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'right',
         justifyContent: 'right',
         width:'100%',
-        height:'auto',
+        height:'100%',
         overflow:'scroll',
+       
        
      
     },
@@ -31,6 +32,7 @@ const useStyles = makeStyles(theme => ({
         border: '1px solid #847e7e5e',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        
     },
 }));
 export default function AnimatedModal({buttonHandle, setButtonHandle}) {
@@ -42,10 +44,7 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
        name: "materialsWeight"
    })
 
-const style = { 
-        height:"auto",
-        background: "#fff"     
-}
+
 function FetchProduct() {
      dispatch(
           {
@@ -101,10 +100,10 @@ function FetchProduct() {
   };
    
     return (
-        <div>
-            <Button sx={{position:'relative'}} variant="contained" color="secondary" onClick={handleOpen}>
+        <div className='bg-white'>
+            <button className='p-4 rounded-sm bg-orange-500 text-white text-xl'  onClick={handleOpen}>
               {buttonHandle}
-            </Button>
+            </button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
@@ -116,11 +115,11 @@ function FetchProduct() {
                 BackdropProps={{
                     timeout: 500,
                 }}
+               
             >
-             <Fade in={open} >
-               <Box sx={style}>
-                 <Typography>{buttonHandle}</Typography>
-                <form  onSubmit={handleSubmit(onSubmit)} style={{width:'45rem', height:'auto', background:'#fff'}}>
+             <div in={open}  className='flex flex-col h-full items-center   bg-white '   >
+                 <span className='text-xl font-bold mt-4'>{buttonHandle}</span>
+                 <form  onSubmit={handleSubmit(onSubmit)} className='bg-white p-8 w-[32rem]' >
                     <div className='formInput'>
                     <label className='form-label' for={`productName`}>
                    materials Name
@@ -129,6 +128,7 @@ function FetchProduct() {
                    as={Input}
                    id={`productName`}
                    name={`productName`}
+                   placeholder='Product Name'
                    type={"text"}
                    control={control}
                    {...register(`productName`)}
@@ -140,6 +140,7 @@ function FetchProduct() {
                </label>
                <input
                    as={Input}
+                   placeholder='Product Quantity'
                    id={`productQuantity`}
                    name={`productQuantity`}
                    type={"text"}
@@ -158,6 +159,7 @@ function FetchProduct() {
                                as={Input}
                                id={`materialsWeight.${index}.materials_name`}
                                name={`materialsWeight.${index}.materials_name`}
+                               placeholder='Materials Name'
                                type={"text"}
                                {...register(`materialsWeight.${index}.materials_name`)}
                                control={control}
@@ -170,6 +172,7 @@ function FetchProduct() {
                            <input
                                as={Input}
                                id={`materialsWeight.${index}.materials_quantity`}
+                               placeholder='Materials Quantity'
                                type={"number"}
                                {...register(`materialsWeight.${index}.materials_quantity`) }
                                name={`materialsWeight.${index}.materials_quantity`}
@@ -184,6 +187,7 @@ function FetchProduct() {
                                as={Input}
                                id={`materialsWeight.${index}.number_of_service`}
                                name={`materialsWeight.${index}.number_of_service`}
+                               placeholder='Number Of Service'
                                type={"number"}
                                {...register(`materialsWeight.${index}.number_of_service`) }
                                control={control}
@@ -196,6 +200,7 @@ function FetchProduct() {
                            <input
                                id={`materialsWeight.${index}.weight_multi_service`}
                                name={`materialsWeight.${index}.weight_multi_service`}
+                               placeholder='Weight Multi Service'
                                type={"number"}
                                value={watch(`materialsWeight.${index}.number_of_service`) * watch(`materialsWeight.${index}.materials_quantity`)}
                                {...register(`materialsWeight.${index}.weight_multi_service`) }
@@ -203,14 +208,15 @@ function FetchProduct() {
                            />
                            </div> 
                            <button type='button' onClick={() => materialsWeight_remove(index)}
-                           className='sun_btn'
+                            className='ml-4 mt-4  rounded-sm mb-8 p-4 bg-orange-500 font-[1.2rem] text-md text-white'
                                    >
                                Delete
                            </button>
                        </li>
                    ))}
                </ul>
-               <button type='button' className='sun_btn_matariel' color='primary'
+                 <div className='flex flex-col gap-2'>
+                 <button type='button' className='ml-4 text-xl  rounded-sm p-4 w-[320px] bg-orange-500 text-md text-white'
                        onClick={() => materialsWeight_append({
                            materials_name:"",
                            materials_quantity:"",
@@ -219,12 +225,13 @@ function FetchProduct() {
                            totalWeight:""
                        })}> materials Weight </button>
 
-             <button className='sun_btn_matariel' variant="contained" color="primary" type="submit">
+               <button className='ml-4 p-4 w-[180px] text-xl font-bold  rounded-sm bg-orange-500 text-md text-white'  type="submit">
                Submit
-           </button>
+              </button>
+                 </div>
                 </form>
-                </Box>
-            </Fade>
+             
+            </div>
               
             </Modal>
         </div>
