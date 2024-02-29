@@ -39,7 +39,10 @@ const Sidebar = () => {
     <Box
       sx={{
         "& .pro-sidebar-inner": {
-          background: `#fff !important`,
+          background: `#fec1518c !important`,
+          height:'100vh !important',
+          fontFamily:'Cairo !important',
+          fontStyle:'Cairo !important'
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",

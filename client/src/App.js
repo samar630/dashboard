@@ -1,5 +1,5 @@
 import React, {  useEffect, useState } from 'react';
-
+import './index.css';
 import {useDispatch, useSelector} from "react-redux";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Sidebar from './core/components/topbar/sidebar';
@@ -46,17 +46,13 @@ const App = () => {
      {loadingPage ? <Spinner /> : 
            <BrowserRouter>
            <div className='app'>
-           <Topbar/>
-           <main className='content flex ' >
-           <div>
-          <Sidebar/>
-          </div>
-         {/* {loading ?   <div className='w-full'>
-           
-         </div> : 'test'} */}
-          <Routes>
+            <main className='flex' > 
+            <Sidebar/>
+            <div className='w-full'>
+            <Routes>
              <Route path='/products' element={<Product product={product}/>} />
             </Routes>
+            </div>
          </main>
        </div>
        </BrowserRouter>

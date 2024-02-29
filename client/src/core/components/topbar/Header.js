@@ -1,36 +1,26 @@
 import { Typography, Box } from "@mui/material";
-
-
-
-
-
-      const Header = ({ title, subtitle}) => {
+import Topbar from "./Topbar";
+ const Header = ({ title, subtitle}) => {
    
   return (
-    <Box  sx={{display:"flex",justifyContent:"space-around",alignItems:"center", gap:'60%', position:'relative'}}>
-     <Box >
-     <Typography
-        variant="h2"
+    <div className="flex flex-col p-6 gap-4"> 
+      <Box>
+      <Typography
+        variant="h4"
         fontWeight="bold"
-        sx={{ m: "0 0 5px 0" }}
       >
         {title}
       </Typography>
-      <Typography variant="h5" >
+      </Box>
+      <div className='flex justify-between w-full'>
+      <Typography variant="h6" >
         {subtitle}
       </Typography>
-     </Box>
-      <Box
-           width="10%"
-           height='4rem'
-            m="0 auto"
-              display="flex"
-                justifyContent="center"
-                borderRadius="4px"
-              >
-          
-              </Box>
-    </Box>
+        <Topbar/>
+      </div>
+     
+ 
+    </div>
   );
 };
 

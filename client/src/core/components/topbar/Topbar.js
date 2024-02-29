@@ -10,26 +10,16 @@ const Topbar = () => {
 
   return (
    <Box display='flex' justifyContent='space-between' >
-        <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={logo}
-                  style={{ cursor: "pointer",marginLeft:'2rem' }}
-                />
-              </Box>
-    
-      {/* ICONS */}
-      <Box display="flex" >
+   
+      <Box display="flex "  >
         <IconButton >
-          <NotificationsOutlinedIcon />
+          <NotificationsOutlinedIcon className='text-[orange]' />
         </IconButton>
         <IconButton >
-          <SettingsOutlinedIcon />
+          <SettingsOutlinedIcon className='text-[orange]'/>
         </IconButton>
         <IconButton>
-          <PersonOutlinedIcon />
+          <PersonOutlinedIcon  className='text-[orange]'/>
         </IconButton>
       </Box>
     </Box>

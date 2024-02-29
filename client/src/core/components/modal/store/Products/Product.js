@@ -173,7 +173,7 @@ const handleClose = () => {
 
     <Box m="20px" >
     
-    <Header title="TEAM" subtitle="Managing the Team Members"  />
+    <Header title="Product" subtitle="Manage Details of Products"  />
        <Box sx={{justifyContent:'space-between', display:'flex'}}>
                   <TextField
                    variant="standard"
