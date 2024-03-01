@@ -14,11 +14,22 @@ export const getProducts = async (req, res) => {
     }
 }
 export const createProduct = async (req, res) => {
-    const { productName, productQuantity, totalWeight, materialsWeight} = req.body;
-    const newProduct = new productMaterial({ productName, productQuantity, totalWeight, materialsWeight } )
+    const file = req.file;
+    if(!file) return res.status(400).send('No image in the request')
+    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+    const fileName = file.filename;
+    const product = new productMaterial({
+        productName: req.body.productName,
+        productQuantity : req.body.productQuantity,
+        totalWeight : req.body.totalWeight,
+        materialsWeight: req.body.materialsWeight,
+        number_of_service: req.body.number_of_service,
+        image: `${basePath}${fileName}`
+    })
+
     try {
-        await newProduct.save();
-        res.status(201).json(newProduct );
+        await product.save();
+        res.status(201).json(product);
     } catch (error) {
         res.status(409).json({ message: error.message });
     }

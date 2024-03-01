@@ -2,8 +2,7 @@ import React, {  useEffect, useState } from 'react';
 import './index.css';
 import {useDispatch, useSelector} from "react-redux";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Sidebar from './core/components/topbar/sidebar';
-import Topbar from './core/components/topbar/Topbar';
+import Sidebar from './core/topbar/sidebar'
 import './app.css'
 import Product from './core/components/modal/store/Products/Product';
 import { Provider } from 'react-redux'

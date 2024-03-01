@@ -2,8 +2,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-
 import products  from './routes/products.js';
+import categories from './routes/categories.js'
 
 const app = express();
 
@@ -12,6 +12,7 @@ app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
 
 app.use('/products', products);
+app.use('/categories', categories)
 const CONNECTION_URL = `mongodb+srv://samarkaddour:samarkaddour@cluster0.zra5rcv.mongodb.net/?retryWrites=true&w=majority`
 const PORT = process.env.PORT|| 5000;
 

@@ -5,12 +5,14 @@ const productSchema = mongoose.Schema({
     productName: String,
     productQuantity: String,
     totalWeight:Number,
+    number_of_service: Number,
+    image: String,
     materialsWeight : [
         {
             materials_name: String,
             unit:String,
             materials_quantity: String,
-            number_of_service: Number,
+           
             weight_multi_service: Number
         }
     ],

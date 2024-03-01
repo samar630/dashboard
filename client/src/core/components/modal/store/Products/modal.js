@@ -45,37 +45,32 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
    })
 
 
-function FetchProduct() {
-     dispatch(
-          {
-            type: 'FETCH_ALL_REQUESTED',
-            payload: {loading: false },
-        })  
-       setTimeout(() =>{
-            
-       },3000)
-   
-      }
-   const onSubmit = (data) => {
-       const product = {
-           ...data,
-           materialsWeight: data.materialsWeight?.map((material) => {
-               return {
-                   materials_name: material.materials_name,
-                   materials_quantity: material.materials_quantity,
-                   number_of_service: material.number_of_service,
-                   weight_multi_service:  (parseFloat(material.materials_quantity) || 0) * (parseFloat(material.number_of_service) || 0)
-               }
-           }),
-       }
-       dispatch(
-        {
-          type: 'CREATE_REQUESTED',
-          payload: { data: data, loading: false },
-      }) 
-    //    dispatch(createProduct(product))
-    //     console.log(product, "product")
-   }
+
+
+   const handlesubmit = async (data) =>{
+    console.log(data, 'xsvdxvfcdvbgfc')
+    const product = {
+        ...data,
+        image : data?.image[0].name,
+        materialsWeight: data.materialsWeight?.map((material) => {
+            return {
+                materials_name: material.materials_name,
+                materials_quantity: material.materials_quantity,
+                number_of_service: material.number_of_service,
+                weight_multi_service:  (parseFloat(material.materials_quantity) || 0) * (parseFloat(material.number_of_service) || 0)
+            }
+        }),
+    }
+    console.log(product, 'productdfsdgrd')
+    try{
+      dispatch({
+        type:'CREATE_REQUESTED',
+        payload: { payload: product, loading: false }
+       })
+    } catch (error){
+      console.log("An error occurred while loading dashboard")
+    }
+  };
    const handleTotalWeight = () =>{
        const productQuantity = (parseFloat(product.productQuantity || 0))
        const totalWeight = product?.map(x => {
@@ -88,7 +83,7 @@ function FetchProduct() {
        return console.log(totalWeight, 'totalWeight')
    }
    useEffect(() => {
-    FetchProduct()
+  
    }, []);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -100,13 +95,11 @@ function FetchProduct() {
   };
    
     return (
-<<<<<<< HEAD
         <div>
-            <Button sx={{position:'relative',background:'#ffa809'}} variant="white"  onClick={handleOpen}>
-=======
+    
         <div className='bg-white'>
             <button className='p-4 rounded-sm bg-orange-500 text-white text-xl'  onClick={handleOpen}>
->>>>>>> 7fdca3eebeb399117c10be5cb26682503cf71c3d
+
               {buttonHandle}
             </button>
             <Modal
@@ -124,7 +117,7 @@ function FetchProduct() {
             >
              <div in={open}  className='flex flex-col h-full items-center   bg-white '   >
                  <span className='text-xl font-bold mt-4'>{buttonHandle}</span>
-                 <form  onSubmit={handleSubmit(onSubmit)} className='bg-white p-8 w-[32rem]' >
+                 <form  onSubmit={handleSubmit(handlesubmit)} className='bg-white p-8 w-[32rem]' >
                     <div className='formInput'>
                     <label className='form-label' for={`productName`}>
                    materials Name
@@ -153,6 +146,36 @@ function FetchProduct() {
                    control={control}
                />
                 </div>
+                <div className='formInput'>
+                          <label className='form-label' for={`number_of_service`}>
+                               Number Of Service
+                           </label>
+                           <input
+                               as={Input}
+                               id={`number_of_service`}
+                               name={`number_of_service`}
+                               placeholder='Number Of Service'
+                               type={"number"}
+                               {...register(`number_of_service`) }
+                               control={control}
+                           />
+                 </div>
+                 <div className='formInput'>
+                <label className='form-label' for={`image`}>
+                   product Quantity
+               </label>
+               <input
+                  as={Input}
+                   placeholder='image of product'
+                   id={`image`}
+                   name={`image`}
+                   type="file"
+                   {...register(`image`)}
+                   accept=".png, .jpg, .jpeg"
+                   control={control}
+               />
+                </div>
+
                 <ul>
                    {materialsWeight_fields.map((item, index) => (
                        <li key={item.id}>
@@ -184,20 +207,7 @@ function FetchProduct() {
                                control={control}
                            />
                           </div>
-                          <div className='formInput'>
-                          <label className='form-label' for={`materialsWeight.${index}.number_of_service`}>
-                               Number Of Service
-                           </label>
-                           <input
-                               as={Input}
-                               id={`materialsWeight.${index}.number_of_service`}
-                               name={`materialsWeight.${index}.number_of_service`}
-                               placeholder='Number Of Service'
-                               type={"number"}
-                               {...register(`materialsWeight.${index}.number_of_service`) }
-                               control={control}
-                           />
-                          </div>
+                     
                            <div className='formInput'> 
                            <label className='form-label' for={`materialsWeight.${index}.weight_multi_service`}>
                                Weight Service
@@ -230,7 +240,7 @@ function FetchProduct() {
                            totalWeight:""
                        })}> materials Weight </button>
 
-               <button className='ml-4 p-4 w-[180px] text-xl font-bold  rounded-sm bg-orange-500 text-md text-white'  type="submit">
+               <button className='ml-4 p-4 w-[180px] text-xl font-bold  rounded-sm bg-orange-500 text-md text-white' type="submit">
                Submit
               </button>
                  </div>
@@ -239,6 +249,7 @@ function FetchProduct() {
             </div>
               
             </Modal>
+        </div>
         </div>
     );
 }

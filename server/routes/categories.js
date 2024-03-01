@@ -1,9 +1,8 @@
 
 import express from 'express';
-import { getProducts, createProduct, deleteProduct, updateProduct } from '../controllers/products.js';
+import { createCategories, deleteCategories, getCategories, updateCategories } from '../controllers/categories.js'
 import multer from 'multer';
-
-const router = express.Router();
+//put validation of image type 
 const FILE_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpeg',
@@ -27,8 +26,11 @@ const storage = multer.diskStorage({
     }
   })
    const uploadOptions = multer({ storage: storage })
-router.get('/', getProducts);
-router.post('/', uploadOptions.single('image'), createProduct);
-router.delete('/:id', deleteProduct)
-router.put('/:id', updateProduct)
+const router = express.Router();
+router.get('/', getCategories);
+router.post('/', uploadOptions.single('image'), createCategories);
+router.delete('/:id', deleteCategories)
+router.put('/:id', updateCategories)
 export default router;
+
+

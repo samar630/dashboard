@@ -3,7 +3,7 @@ import { Typography, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { mockDataTeam } from "../../../../data/mockData";
 import {  useDispatch, useSelector } from 'react-redux';
-import Header from '../../../topbar/Header'
+import Header from '../../../../topbar/Header'
 import TextField from '@mui/material/TextField';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
@@ -83,7 +83,7 @@ const handleClose = () => {
         flex: 0.6,
         renderCell: (params) => (
           <Stack direction="row" spacing={0.25}>
-            {params?.row?.materialsWeight.map(( x, index) => (
+            {params?.row?.materialsWeight?.map(( x, index) => (
               <Chip label={x?.materials_name} />
             ))}
           </Stack>
@@ -97,7 +97,7 @@ const handleClose = () => {
         flex: 0.3,
         renderCell: (params) => (
           <Stack direction="row" spacing={0.25}>
-            {params?.row?.materialsWeight.map(( x, index) => (
+            {params?.row?.materialsWeight?.map(( x, index) => (
               <Chip label={x?.number_of_service} />
             ))}
           </Stack>
