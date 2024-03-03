@@ -10,14 +10,16 @@ import store from './core/redux/store/store'
 import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react';
 import Spinner from './core/spinner/spinner'
+import Categoreis from './core/components/modal/store/categories/cateegories';
 const App = () => {
     const dispatch = useDispatch();
     let persistor = persistStore(store);
     const loading = useSelector((state) => state?.products?.loading)
-    const product = useSelector((state) => (state.products?.products?.products));
+    const product = useSelector((state) => (state?.products?.products?.products));
+    const categories = useSelector((state) => (state?.categories?.categories?.categories));
     const [products, setproducts] = useState('')   
     const [loadingPage, setLoadingPage] = useState(true); 
-    function dispachAction() {
+    function dispachtProduct() {
       const fetchdata = async () =>{
         try{
           dispatch({
@@ -36,10 +38,22 @@ const App = () => {
         throw new Error('An error occurred while loading dashboard');
       })
     }
+   
+      const fetchCategories = async () =>{
+        try{
+          dispatch({
+            type:'FETCH_ALL_REQUESTED_CATEGORIES'
+           })
+        } catch (error){
+          console.log("An error occurred while loading dashboard")
+        }
+    }
    useEffect(()=>{
      console.log(loadingPage, 'loading')
-     dispachAction()
-   },[loadingPage])
+     console.log(categories, 'categories')
+     dispachtProduct()
+     fetchCategories()
+   },[])
     return (
    <div>
      {loadingPage ? <Spinner /> : 
@@ -50,6 +64,7 @@ const App = () => {
             <div className='w-full'>
             <Routes>
              <Route path='/products' element={<Product product={product}/>} />
+             <Route path='/categories' element={<Categoreis categories={categories} />} />
             </Routes>
             </div>
          </main>

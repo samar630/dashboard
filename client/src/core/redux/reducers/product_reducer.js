@@ -35,7 +35,7 @@ const reducerProduct = (state = initialState, {type, payload}) => {
       case DELETE:
         return {
           ...state,
-          products : payload,
+          products : state.products.filter((row) => row.id !== state.payload),
           loading: false
         }
      

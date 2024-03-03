@@ -118,22 +118,22 @@ const handleClose = () => {
       //     </Stack>
       //   ),
       // },
-  //     {
-  //    field: 'Delete',
-  //     type: 'actions',
-  //   headerName: 'Delete',
-  //   flex: 0.2,
-  //   getActions: (params) => [
-  //   <Button
-  //   onClick={(e) => onButtonClick(e, params.row._id)}
-  //   variant="contained"
-  // >
+      {
+     field: 'Delete',
+      type: 'actions',
+    headerName: 'Delete',
+    flex: 0.2,
+    getActions: (params) => [
+    <Button
+    onClick={(e) => onButtonClick(e, params?.id)}
+    variant="contained"
+  >
   
-  //   Delete
-  // </Button>
+    Delete
+  </Button>
   
-  //    ],
-  //     },
+     ],
+      },
   //     {
   //       field: "Edits",
   //       headerName: "Edits",
@@ -168,7 +168,7 @@ const handleClose = () => {
    console.log(products, '111111')
   console.log(clickedRow, 'clickedRow')
 
-  },[product]  )
+  },[]  )
   return (
 
     <Box m="20px" >
@@ -241,7 +241,7 @@ const handleClose = () => {
       {rows === ''  ? <DataGrid checkboxSelection  
         initialState={{
           pagination: {
-            paginationModel: { pageSize: 25, page: 0 },
+            paginationModel: { pageSize: 10, page: 0 },
           },
         }}
            autoPageSize  

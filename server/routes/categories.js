@@ -25,7 +25,7 @@ const storage = multer.diskStorage({
       cb(null, `${fileName}-${Date.now()}.${extension}`)
     }
   })
-   const uploadOptions = multer({ storage: storage })
+const uploadOptions = multer({ storage: storage })
 const router = express.Router();
 router.get('/', getCategories);
 router.post('/', uploadOptions.single('image'), createCategories);

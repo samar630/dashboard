@@ -162,13 +162,13 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                  </div>
                  <div className='formInput'>
                 <label className='form-label' for={`image`}>
-                   product Quantity
+                image
                </label>
                <input
-                  as={Input}
+                  as={File}
                    placeholder='image of product'
                    id={`image`}
-                   name={`image`}
+                   name={`file`}
                    type="file"
                    {...register(`image`)}
                    accept=".png, .jpg, .jpeg"

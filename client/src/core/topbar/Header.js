@@ -1,7 +1,6 @@
 import { Typography, Box } from "@mui/material";
 import Topbar from "./Topbar";
  const Header = ({ title, subtitle}) => {
-   
   return (
     <div className="flex flex-col p-6 gap-4"> 
       <Box>

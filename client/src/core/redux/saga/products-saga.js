@@ -1,6 +1,6 @@
  import { put, call,takeLatest, takeEvery } from 'redux-saga/effects';
 import { CREATE, CREATE_REQUESTED, DELETE, DELETE_REQUESTED, FETCH_ALL, FETCH_ALL_REQUESTED, SET_LOADING, UPDATE, UPDATE_REQUESTED } from '../constants/actionTypes';
-import { createProduct, deleteProducts, fetchProduct, updateProducts } from '../actions';
+import { createProduct, deleteProducts, fetchProduct, updateProducts } from '../actions/actionProduct';
 
   function* getProducts(){
     yield put({type: SET_LOADING})
