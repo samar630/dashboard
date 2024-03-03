@@ -5,15 +5,15 @@ const categoriesSchema = mongoose.Schema({
         type: String,
        
     },
-    icon: {
-        type: String,
-    },
-    color: { 
+    status: {
         type: String,
     },
     image: {
-        type: String,
-       
+        type: String,  
+    },
+    active:{
+        type: Boolean,
+        default: 1
     }
 })
 

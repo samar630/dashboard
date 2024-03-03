@@ -21,8 +21,8 @@ export const createCategories = async (req, res) => {
     const fileName = file.filename;
    let category = new categorySchema({
         name: req.body.name,
-        icon: req.body.icon,
-        color: req.body.color,
+        active: req.body.active,
+        status: req.body.status,
         image: `${basePath}${fileName}`
     })
     try {

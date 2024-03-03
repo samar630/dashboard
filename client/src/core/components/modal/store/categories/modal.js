@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import { useDispatch, useSelector } from 'react-redux';
-import {useNavigate} from 'react-router-dom'
-
+import {useNavigate} from 'react-router-dom';
+import { FiEdit } from "react-icons/fi";
+import { RiAddCircleLine } from "react-icons/ri";
 const useStyles = makeStyles(theme => ({
     modal: {
         display: 'flex',
@@ -24,12 +25,20 @@ const useStyles = makeStyles(theme => ({
         
     },
 }));
-export default function AnimatedModal({buttonHandle, setButtonHandle}) {
+export default function AnimatedModal({buttonHandle, params}) {
     const product = useSelector((state) => (state.products));
     const navaigate = useNavigate()
     const dispatch = useDispatch();
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedName, setSelectName] = useState(null)
+    const [selectedName, setSelectName] = useState({
+      ...params?.name
+
+    })
+    const [selectedStatus, setSelectStatus] = useState(null)
+    const [selectedActive, setSelectActive] = useState(true)
+    const handleCheckboxChange = (event) => {
+      setSelectActive(event.target.checked);
+    };
    const handleImageChange = (event) => {
      const file = event.target.files[0];
      setSelectedImage(file);
@@ -40,6 +49,8 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
     const formData = new FormData();
     formData.append('image', selectedImage);
     formData.append('name', selectedName);
+    formData.append('status', selectedStatus);
+    formData.append('active', selectedActive);
     try{
       dispatch({
         type:'CREATE_REQUESTED_CATEGORIES',
@@ -66,13 +77,14 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
   const handleClose = () => {
       setOpen(false);
   };
-   
+
+
     return (
         <div>
     
         <div className='bg-white'>
-            <button className='p-4 rounded-sm bg-orange-500 text-white text-xl'  onClick={handleOpen}>
-              {buttonHandle}
+            <button className=' rounded-sm p-2 bg-orange-500 text-white text-xl'  onClick={handleOpen}>
+              {buttonHandle === 'update' ? <span className='bg-white'><FiEdit/></span>  : <span className='flex  '><RiAddCircleLine className='mt-1 mr-1' /> <p className=''>Categories</p></span> }
             </button>
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -100,22 +112,50 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                     name="image"
                     type="file"
                     accept=".png, .jpg, .jpeg"
+                    filename={params?.image}
                     onChange={handleImageChange}
                />
                 </div>
                 <div className='formInput'>
               <label className='form-label' for={`image`}>
-                    Categories image
+                    Categories Name
                   </label>
                   <input
                     placeholder="Name of categories"
                     id="name"
                     name="name"
                     type="text"
-                    onChange={(e) => setSelectName(e.target.value)}
+                    // value={buttonHandle === "update" ? `${params?.name}` : null}
+                    onChange={(e) => setSelectName( e.target.value)}
                />
                 </div>
-                    <button className='ml-4 p-4 w-[180px] text-xl font-bold  rounded-sm bg-orange-500 text-md text-white' type="submit">submit</button>
+                <div className='formInput'>
+              <label className='form-label' for={`image`}>
+                    Categories status
+                  </label>
+                  <input
+                    placeholder="status of categories"
+                    id="status"
+                    name="status"
+                    type="text"
+                  
+                    // value={buttonHandle === "update" ? `${params?.status}` : null}
+                    onChange={(e) => setSelectStatus( e.target.value)}
+               />
+                </div>
+                <div className='formInput'>
+                  <input
+                
+                    placeholder="Name of categories"
+                    id="active"
+                    name="active"
+                    type="checkbox"
+                     value={buttonHandle === "update" ? `${params.active}` : null}
+                    onChange={handleCheckboxChange}
+                    title='Is Active'
+               />
+                </div>
+                    <button className='ml-4 p-2 w-[180px] text-xl font-bold  rounded-sm bg-orange-500 text-md text-white' type="submit">{buttonHandle === 'update' ? 'Update' : 'Create'}</button>
            </form>
             </div>
               
