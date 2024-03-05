@@ -51,6 +51,7 @@ export default function AnimatedModal({buttonHandle, params}) {
     formData.append('name', selectedName);
     formData.append('status', selectedStatus);
     formData.append('active', selectedActive);
+    
     try{
       dispatch({
         type:'CREATE_REQUESTED_CATEGORIES',
@@ -63,7 +64,7 @@ export default function AnimatedModal({buttonHandle, params}) {
     } catch (error){
       console.log("An error occurred while loading dashboard")
     }
-   
+    console.log(selectedImage,'selectedImage')
   };
 
    useEffect(() => {

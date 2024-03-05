@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import AsyncSelect from "react-select/async"
 import {Controller, useForm, useFieldArray} from 'react-hook-form'
-
+import axios from 'axios';
+import _ from "lodash"
 import {
     FormGroup,
     Label,
@@ -39,10 +40,11 @@ const useStyles = makeStyles(theme => ({
 }));
 export default function AnimatedModal({buttonHandle, setButtonHandle}) {
     const product = useSelector((state) => (state?.products));
-
+    const [selectedImage, setSelectedImage] = useState(null);
     const array =[{name:"", _id:""}]
     const categories = useSelector((state) => (state?.categories?.categories?.categories));
- 
+    const asyncCategories = useSelector((state) => (state?.products?.categoryAsync?.result));
+    const [loadOprtionCategories, setLoadOptionCategories] = useState(asyncCategories)
     const dispatch = useDispatch();
    const { register, errors, handleSubmit, control, setValue, watch } = useForm()
    const {fields: materialsWeight_fields, append: materialsWeight_append, remove: materialsWeight_remove} = useFieldArray({
@@ -50,6 +52,10 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
        name: "materialsWeight"
    })
 
+   const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedImage(file);
+  };
    const fetchCategoriesAsyns = async () =>{
     try{
       dispatch({
@@ -65,8 +71,8 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
     console.log(data, 'xsvdxvfcdvbgfc')
     const product = {
         ...data,
-        image : data?.image[0].name,
-        category: data?.category?._id,
+        image : data.image[0],
+        category :data?.category?.value,
         materialsWeight: data.materialsWeight?.map((material) => {
             return {
                 materials_name: material.materials_name,
@@ -96,21 +102,12 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
        })
        return console.log(totalWeight, 'totalWeight')
    }
-   const name = []
-   const arr = []
-   const fun = () =>{
-    categories.map((x, id) =>{
-      name?.push({name: x?.name, _id: x._id})
-      arr?.push(arr.values = name.name)
-    })
-    
-    return console.log(arr, 'arr')
-   }
-   const [categoriesHook, setCategoriesHook] = useState(categories)
+
+
    useEffect(() => {
-       console.log(categories, 'cat')
+     
        fetchCategoriesAsyns()
-       fun()
+     
    }, []);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -192,14 +189,14 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                 image
                </label>
                <input
-                  as={File}
                    placeholder='image of product'
                    id={`image`}
-                   name={`file`}
+                   name={`image`}
                    type="file"
-                   {...register(`image`)}
                    accept=".png, .jpg, .jpeg"
                    control={control}
+                   {...register(`image`) }
+                   onChange={handleImageChange}     
                />
                 </div>
                 <div className='formInput'>
@@ -208,7 +205,7 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                       name='category'
                       control={control}
                       defaultValue={{name : '' , id:""}}
-                      loadOptions={categoriesHook}
+                      loadOptions={loadOprtionCategories}
                       render={(({field}) =>(
                         <Select
                         {...field}
@@ -216,7 +213,7 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                         isSearchable={false}
                         className="react-dropdown"
                         classNamePrefix="dropdown"
-                        options={categoriesHook}
+                        options={loadOprtionCategories}
                          />
                       ))}
                        />

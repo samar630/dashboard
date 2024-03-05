@@ -10,7 +10,7 @@ import { _categoryAsync, createProduct, deleteProducts, fetchProduct, updateProd
   }
   function* getCategoryAsync(){
     yield put({type: SET_LOADING})
-    const result = yield call(_categoryAsync)
+    const result = yield call(_categoryAsync )
     console.log(result, '24554')
     yield put({type:SET_LOADING_CATEGORIES, payload: {result} })
   }

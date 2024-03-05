@@ -40,18 +40,28 @@ export const updateProducts = async (id,product) =>{
         return console.error(err, 'error')
     }
 }
+
+// export const _categoryAsync = async () => {
+//     axios.get(`${baseUrl}/categories`).then(data =>{
+//         result = _.map(data.data, (v, k) =>{
+//             return { value: v._id, label: v.name }
+//         })
+//         console.log(result,'resultAsync545')
+//         return result
+//        })  
+// }
+
+
+
 export const _categoryAsync = async () => {
-   try{
-    axios.get(`${baseUrl}/categories`).then(data =>{
-        const res = data.data
-        const result = _.map(data.data, (v, k) =>{
-            return { value: v._id, label: v.name }
-        })
-        console.log(result,'resultAsync545')
-        return result
-       })
-   }catch(err){
-    return console.error(err, 'error')
-   }
-   
+  const res = await fetch(`${baseUrl}/categories`).then(data => {
+    return data.json()
+  })
+ 
+  console.log(res, 'resftexh')
+    const result= res?.map((v,k) =>{
+      return { value:  v?._id, label:  v?.name }
+    })
+    console.log(result, 'result')
+    return result
 }

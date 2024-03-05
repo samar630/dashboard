@@ -107,8 +107,7 @@ const columns = useMemo ( () =>  [
 
           </Stack>
         ),
-      },
-      
+      },    
       {
         field: "Edits",
         headerName: "Edits",

@@ -14,10 +14,10 @@ import { Box, Chip, Stack } from "@mui/material"
 const Product = (props) => {
   const dispatch = useDispatch()
   const [clickedRow, setClickedRow] = useState();
-  const [products, setProduct] = useState(props?.products);
+  const [product, setProduct] = useState(props?.product);
   const [loadingPage, setLoadingPage] = useState('');
   const loading = useSelector((state) => state?.products?.loading)
-  const product = useSelector((state) => (state.products?.products?.products));
+
   
   function onButtonClick( id) {
      dispatch(
@@ -75,34 +75,34 @@ const handleClose = () => {
         align: "left",
         flex:0.3
       },
-      {
-        field: "materialsWeight?.materials_name",
-        headerAlign: "center",
-        align: "center",
-        headerName: "materials Name",
-        flex: 0.6,
-        renderCell: (params) => (
-          <Stack direction="row" spacing={0.25}>
-            {params?.row?.materialsWeight?.map(( x, index) => (
-              <Chip label={x?.materials_name} />
-            ))}
-          </Stack>
-        ),
-      },
-      {
-        field: "materialsWeight?.number_of_service",
-        headerName: "Number Of service",
-        headerAlign: "center",
-        align: "center",
-        flex: 0.3,
-        renderCell: (params) => (
-          <Stack direction="row" spacing={0.25}>
-            {params?.row?.materialsWeight?.map(( x, index) => (
-              <Chip label={x?.number_of_service} />
-            ))}
-          </Stack>
-        ),
-      },
+      // {
+      //   field: "materialsWeight?.materials_name",
+      //   headerAlign: "center",
+      //   align: "center",
+      //   headerName: "materials Name",
+      //   flex: 0.6,
+      //   renderCell: (params) => (
+      //     <Stack direction="row" spacing={0.25}>
+      //       {params?.row?.materialsWeight?.map(( x, index) => (
+      //         <Chip label={x?.materials_name} />
+      //       ))}
+      //     </Stack>
+      //   ),
+      // },
+      // {
+      //   field: "materialsWeight?.number_of_service",
+      //   headerName: "Number Of service",
+      //   headerAlign: "center",
+      //   align: "center",
+      //   flex: 0.3,
+      //   renderCell: (params) => (
+      //     <Stack direction="row" spacing={0.25}>
+      //       {params?.row?.materialsWeight?.map(( x, index) => (
+      //         <Chip label={x?.number_of_service} />
+      //       ))}
+      //     </Stack>
+      //   ),
+      // },
       // {
       //   field: "Delete",
       //   headerName: "Delete",
@@ -165,7 +165,7 @@ const handleClose = () => {
   useEffect(() =>{
 
    console.log(loading, '00000')
-   console.log(products, '111111')
+   console.log(product, '111111')
   console.log(clickedRow, 'clickedRow')
 
   },[]  )
@@ -238,27 +238,23 @@ const handleClose = () => {
         },
       }}
     >
-      {rows === ''  ? <DataGrid checkboxSelection  
+        <DataGrid checkboxSelection  
+        {...product}
         initialState={{
+          ...product?.initialState,
           pagination: {
-            paginationModel: { pageSize: 10, page: 0 },
-          },
+            paginationModel: { pageSize: 5, page: 0 } },  
         }}
+        pageSizeOptions={[5, 10, 25]}
            autoPageSize  
-           rows={products} 
-           getRowId={(products) => products._id} 
+           rows={product} 
+           getRowId={(product) => product._id} 
            columns={columns} xs 
            editMode='row'
            experimentalFeatures={{ newEditingApi: true }}
           /> 
 
-        : <DataGrid checkboxSelection 
-        
-           getRowId={(product) => product._id} columns={columns} xs 
-        editMode='row'
-           
-           experimentalFeatures={{ newEditingApi: true }}
-          rows={props?.product}  />}
+       
     </Box>
   </Box>
   )

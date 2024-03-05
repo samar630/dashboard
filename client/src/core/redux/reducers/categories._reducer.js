@@ -7,7 +7,7 @@ import { FETCH_ALL_CATEGORIES, DELETE_CATEGORIES, CREATE_CATEGORIES, UPDATE_CATE
   }
   
 const reducerCategories= (state = initialState, {type, payload}) => {
-  console.log(payload, "payload")
+
     switch(type) {
         case SET_LOADING:
             return {

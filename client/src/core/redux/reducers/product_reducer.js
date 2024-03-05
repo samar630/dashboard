@@ -8,7 +8,7 @@ import { FETCH_ALL, DELETE, CREATE, UPDATE, SET_LOADING, SET_LOADING_CATEGORIES 
   }
   
 const reducerProduct = (state = initialState, {type, payload}) => {
-  console.log(payload, "payload")
+  
     switch(type) {
         case SET_LOADING:
             return {
