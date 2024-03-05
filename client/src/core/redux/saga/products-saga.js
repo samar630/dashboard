@@ -10,9 +10,9 @@ import { _categoryAsync, createProduct, deleteProducts, fetchProduct, updateProd
   }
   function* getCategoryAsync(){
     yield put({type: SET_LOADING})
-    const categories = yield call(_categoryAsync)
-    console.log(categories, 'productsSaga')
-    yield put({type:SET_LOADING_CATEGORIES, payload: {categories} })
+    const result = yield call(_categoryAsync)
+    console.log(result, '24554')
+    yield put({type:SET_LOADING_CATEGORIES, payload: {result} })
   }
 
   function* createProducts({payload}){
@@ -39,5 +39,5 @@ import { _categoryAsync, createProduct, deleteProducts, fetchProduct, updateProd
     yield takeEvery(CREATE_REQUESTED, createProducts)
     yield takeEvery(UPDATE_REQUESTED, updateProduct)
     yield takeEvery(DELETE_REQUESTED, deleteProduct)
-    yield takeEvery(SET_LOADING_CATEGORIES_REQUEST, _categoryAsync)
+    yield takeEvery(SET_LOADING_CATEGORIES_REQUEST, getCategoryAsync)
   }

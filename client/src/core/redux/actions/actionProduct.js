@@ -47,7 +47,7 @@ export const _categoryAsync = async () => {
         const result = _.map(data.data, (v, k) =>{
             return { value: v._id, label: v.name }
         })
-        console.log(result, 'result')
+        console.log(result,'resultAsync545')
         return result
        })
    }catch(err){

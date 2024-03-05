@@ -39,7 +39,7 @@ const reducerProduct = (state = initialState, {type, payload}) => {
           products : state.products.filter((row) => row.id !== state.payload),
           loading: false
         }
-      case SET_LOADING_CATEGORIES :{
+      case SET_LOADING_CATEGORIES: {
           return{
             ...state,
             categoryAsync :payload,
