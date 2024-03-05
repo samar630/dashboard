@@ -7,6 +7,11 @@ const productSchema = mongoose.Schema({
     totalWeight:Number,
     number_of_service: Number,
     image: String,
+    category:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'categoriesSchema',
+        require:true
+    },
     materialsWeight : [
         {
             materials_name: String,

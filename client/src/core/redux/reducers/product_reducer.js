@@ -1,9 +1,10 @@
 
-import { FETCH_ALL, DELETE, CREATE, UPDATE, SET_LOADING } from '../constants/actionTypes';
+import { FETCH_ALL, DELETE, CREATE, UPDATE, SET_LOADING, SET_LOADING_CATEGORIES } from '../constants/actionTypes';
 
   const initialState = {
     products : [],
-    loading :false
+    loading :false,
+    categoryAsync:[]
   }
   
 const reducerProduct = (state = initialState, {type, payload}) => {
@@ -38,7 +39,13 @@ const reducerProduct = (state = initialState, {type, payload}) => {
           products : state.products.filter((row) => row.id !== state.payload),
           loading: false
         }
-     
+      case SET_LOADING_CATEGORIES :{
+          return{
+            ...state,
+            categoryAsync :payload,
+            loading:false
+          }
+      }  
       default:
         return state
     }

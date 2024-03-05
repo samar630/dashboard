@@ -1,12 +1,18 @@
  import { put, call,takeLatest, takeEvery } from 'redux-saga/effects';
-import { CREATE, CREATE_REQUESTED, DELETE, DELETE_REQUESTED, FETCH_ALL, FETCH_ALL_REQUESTED, SET_LOADING, UPDATE, UPDATE_REQUESTED } from '../constants/actionTypes';
-import { createProduct, deleteProducts, fetchProduct, updateProducts } from '../actions/actionProduct';
+import { CREATE, CREATE_REQUESTED, DELETE, DELETE_REQUESTED, FETCH_ALL, FETCH_ALL_REQUESTED, SET_LOADING, SET_LOADING_CATEGORIES, SET_LOADING_CATEGORIES_REQUEST, UPDATE, UPDATE_REQUESTED } from '../constants/actionTypes';
+import { _categoryAsync, createProduct, deleteProducts, fetchProduct, updateProducts } from '../actions/actionProduct';
 
   function* getProducts(){
     yield put({type: SET_LOADING})
     const products = yield call(fetchProduct)
     console.log(products, 'productsSaga')
     yield put({type:FETCH_ALL, payload: {products} })
+  }
+  function* getCategoryAsync(){
+    yield put({type: SET_LOADING})
+    const categories = yield call(_categoryAsync)
+    console.log(categories, 'productsSaga')
+    yield put({type:SET_LOADING_CATEGORIES, payload: {categories} })
   }
 
   function* createProducts({payload}){
@@ -33,4 +39,5 @@ import { createProduct, deleteProducts, fetchProduct, updateProducts } from '../
     yield takeEvery(CREATE_REQUESTED, createProducts)
     yield takeEvery(UPDATE_REQUESTED, updateProduct)
     yield takeEvery(DELETE_REQUESTED, deleteProduct)
+    yield takeEvery(SET_LOADING_CATEGORIES_REQUEST, _categoryAsync)
   }

@@ -14,7 +14,7 @@ import { Box, Chip, Stack } from "@mui/material"
 const Product = (props) => {
   const dispatch = useDispatch()
   const [clickedRow, setClickedRow] = useState();
-  const [products, setProduct] = useState('');
+  const [products, setProduct] = useState(props?.products);
   const [loadingPage, setLoadingPage] = useState('');
   const loading = useSelector((state) => state?.products?.loading)
   const product = useSelector((state) => (state.products?.products?.products));
@@ -245,8 +245,8 @@ const handleClose = () => {
           },
         }}
            autoPageSize  
-           rows={props?.product} 
-           getRowId={(product) => product._id} 
+           rows={products} 
+           getRowId={(products) => products._id} 
            columns={columns} xs 
            editMode='row'
            experimentalFeatures={{ newEditingApi: true }}

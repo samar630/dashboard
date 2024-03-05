@@ -5,6 +5,8 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import AsyncSelect from "react-select/async"
 import {Controller, useForm, useFieldArray} from 'react-hook-form'
 
 import {
@@ -36,7 +38,11 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 export default function AnimatedModal({buttonHandle, setButtonHandle}) {
-    const product = useSelector((state) => (state.products));
+    const product = useSelector((state) => (state?.products));
+
+    const array =[{name:"", _id:""}]
+    const categories = useSelector((state) => (state?.categories?.categories?.categories));
+ 
     const dispatch = useDispatch();
    const { register, errors, handleSubmit, control, setValue, watch } = useForm()
    const {fields: materialsWeight_fields, append: materialsWeight_append, remove: materialsWeight_remove} = useFieldArray({
@@ -44,7 +50,15 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
        name: "materialsWeight"
    })
 
-
+   const fetchCategoriesAsyns = async () =>{
+    try{
+      dispatch({
+        type:'SET_LOADING_CATEGORIES_REQUEST'
+       })
+    } catch (error){
+      console.log("An error occurred while loading dashboard")
+    }
+}
 
 
    const handlesubmit = async (data) =>{
@@ -52,11 +66,11 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
     const product = {
         ...data,
         image : data?.image[0].name,
+        category: data?.category?._id,
         materialsWeight: data.materialsWeight?.map((material) => {
             return {
                 materials_name: material.materials_name,
                 materials_quantity: material.materials_quantity,
-                number_of_service: material.number_of_service,
                 weight_multi_service:  (parseFloat(material.materials_quantity) || 0) * (parseFloat(material.number_of_service) || 0)
             }
         }),
@@ -82,8 +96,21 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
        })
        return console.log(totalWeight, 'totalWeight')
    }
+   const name = []
+   const arr = []
+   const fun = () =>{
+    categories.map((x, id) =>{
+      name?.push({name: x?.name, _id: x._id})
+      arr?.push(arr.values = name.name)
+    })
+    
+    return console.log(arr, 'arr')
+   }
+   const [categoriesHook, setCategoriesHook] = useState(categories)
    useEffect(() => {
-  
+       console.log(categories, 'cat')
+       fetchCategoriesAsyns()
+       fun()
    }, []);
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -121,22 +148,22 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                     <div className='formInput'>
                     <label className='form-label' for={`productName`}>
                    materials Name
+                    </label>
+                    <input
+                    as={Input}
+                    id={`productName`}
+                    name={`productName`}
+                    placeholder='Product Name'
+                    type={"text"}
+                    control={control}
+                    {...register(`productName`)}
+                   />
+                  </div>
+                  <div className='formInput'>
+                  <label className='form-label' for={`productQuantity`}>
+                   product Quantity
                   </label>
                   <input
-                   as={Input}
-                   id={`productName`}
-                   name={`productName`}
-                   placeholder='Product Name'
-                   type={"text"}
-                   control={control}
-                   {...register(`productName`)}
-               />
-                    </div>
-                <div className='formInput'>
-                <label className='form-label' for={`productQuantity`}>
-                   product Quantity
-               </label>
-               <input
                    as={Input}
                    placeholder='Product Quantity'
                    id={`productQuantity`}
@@ -144,9 +171,9 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                    type={"text"}
                    {...register(`productQuantity`)}
                    control={control}
-               />
-                </div>
-                <div className='formInput'>
+                   />
+                  </div>
+                   <div className='formInput'>
                           <label className='form-label' for={`number_of_service`}>
                                Number Of Service
                            </label>
@@ -175,7 +202,25 @@ export default function AnimatedModal({buttonHandle, setButtonHandle}) {
                    control={control}
                />
                 </div>
-
+                <div className='formInput'>
+                      <Controller
+                      as={AsyncSelect}
+                      name='category'
+                      control={control}
+                      defaultValue={{name : '' , id:""}}
+                      loadOptions={categoriesHook}
+                      render={(({field}) =>(
+                        <Select
+                        {...field}
+                        isClearable
+                        isSearchable={false}
+                        className="react-dropdown"
+                        classNamePrefix="dropdown"
+                        options={categoriesHook}
+                         />
+                      ))}
+                       />
+                </div>
                 <ul>
                    {materialsWeight_fields.map((item, index) => (
                        <li key={item.id}>
