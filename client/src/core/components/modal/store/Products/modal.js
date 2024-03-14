@@ -16,7 +16,7 @@ import {
     Input,
     
 } from 'reactstrap'
-import './input.css'
+import '../../input.css'
 const useStyles = makeStyles(theme => ({
     modal: {
         display: 'flex',

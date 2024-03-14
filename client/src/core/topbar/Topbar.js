@@ -11,15 +11,19 @@ const Topbar = () => {
    <Box display='flex' justifyContent='space-between' >
    
       <Box display="flex "  >
+        <a href='/signup'>
+        <IconButton>
+          <PersonOutlinedIcon  className='text-[orange]'/>
+        </IconButton>
+        </a>
         <IconButton >
+
           <NotificationsOutlinedIcon className='text-[orange]' />
         </IconButton>
         <IconButton >
           <SettingsOutlinedIcon className='text-[orange]'/>
         </IconButton>
-        <IconButton>
-          <PersonOutlinedIcon  className='text-[orange]'/>
-        </IconButton>
+      
       </Box>
     </Box>
  

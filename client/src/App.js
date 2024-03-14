@@ -11,6 +11,9 @@ import { persistStore } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react';
 import Spinner from './core/spinner/spinner'
 import Categoreis from './core/components/modal/store/categories/cateegories';
+import Signup from './core/components/modal/user';
+import Dashboard from './core/components/modal/dashboard/dashboard';
+import Login from './core/components/modal/user/login';
 const App = () => {
     const dispatch = useDispatch();
     let persistor = persistStore(store);
@@ -19,6 +22,7 @@ const App = () => {
     const categories = useSelector((state) => (state?.categories?.categories?.categories));
     const [products, setproducts] = useState('')   
     const [loadingPage, setLoadingPage] = useState(true); 
+    const [token , steToken] = useState(false)
     function dispachtProduct() {
       const fetchdata = async () =>{
         try{
@@ -48,6 +52,7 @@ const App = () => {
           console.log("An error occurred while loading dashboard")
         }
     }
+    const goto = localStorage.getItem('goto')
    useEffect(()=>{
      console.log(loadingPage, 'loading')
      console.log(categories, 'categories')
@@ -55,23 +60,32 @@ const App = () => {
      fetchCategories()
    },[])
     return (
+      <BrowserRouter>
    <div>
-     {loadingPage ? <Spinner /> : 
-           <BrowserRouter>
+
+      {goto === false ?  <Signup /> : <Login/> }
+      
+      {/* { loadingPage ? <Spinner /> : 
+          
            <div className='app'>
             <main className='flex' > 
-            <Sidebar/>
+            
             <div className='w-full'>
             <Routes>
              <Route path='/products' element={<Product product={product}/>} />
              <Route path='/categories' element={<Categoreis categories={categories} />} />
+             <Route path='/dashboard' element={<Dashboard />} />
+             <Route path='/login' element={<Login />} />
+             <Route path='/signup' element={<Signup />} />
             </Routes>
             </div>
          </main>
        </div>
-       </BrowserRouter>
-     }
+    } */}
+     
+      
    </div>
+   </BrowserRouter>
     )
 };
 
