@@ -13,7 +13,7 @@ import errorHandler from './helper/error-handler.js';
 import  morgan from 'morgan';
 const app = express();
 dotenv.config();
-app.use(authJwt());
+// app.use(authJwt());
 app.use(errorHandler);
 app.use(morgan('tiny'));
 app.use(bodyParser.json({ limit: '30mb', extended: true }))

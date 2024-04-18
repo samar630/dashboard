@@ -4,16 +4,41 @@ import bcrypt from 'bcryptjs';
 import jwt from "jsonwebtoken";
 
 
-export const getUser = async (req, res) => {
+export const getUser = async (req, res) => { 
     try {
         const user = await User.find();
-
         res.status(200).json(user);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
+export const getUserId =  async (req, res) =>{
+  const user = await  User.findById(req.params.id)
+  try{
+    if(!user) {
+        return res.status(404).json({success: false , message: "user not found!"})
+    } 
+    res.status(200).send(user);
+  }catch(error){
+    res.status(404).json({ message: error.message });
+  }
+  
+}
 
+
+export const searchUser = async(req, res) =>{
+    let data = await User.find(
+        {
+            "$or":[
+                {"name":{$regex: req.params.key}},
+                {"email":{$regex:req.params.key}},
+           
+            ]
+        },
+      
+    )
+    res.send(data)
+}
 export const createUser = async (req, res) => {
     // const file = req.file;
     // if(!file) return res.status(400).send('No image in the request')

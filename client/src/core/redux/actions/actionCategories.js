@@ -21,6 +21,23 @@ export const fetchCategories = async () =>{
         return console.error(err, 'error')
     }
 }
+export const fetchCategoriesId = async (id) =>{
+    try{
+        const categories = await axios.get(`${baseUrl}/categories/${id}`)
+        return categories?.data  
+    }  catch(err){
+        return console.error(err, 'error')
+    }
+}
+export const searchCategoriesId = async (key) =>{
+    console.log(key, 'keyyyyy')
+    try{
+        const categories = await axios.get(`${baseUrl}/categories/search/${key}`)
+        return categories?.data  
+    }  catch(err){
+        return console.error(err, 'error')
+    }
+}
 export const deleteCategories  = async (id) =>{
    
     try{

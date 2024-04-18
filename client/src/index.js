@@ -4,7 +4,7 @@ import App from './App';
 import './index.css';
 import store from './core/redux/store/store';
 import {Provider} from 'react-redux'
-import Signup from './core/components/modal/user';
+import Signup from './core/components/user';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 if (document.getElementById('Stepper')) {

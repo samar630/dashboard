@@ -23,8 +23,10 @@ export const createUser = async (users) => {
 }
 export const login = async (user) => {
     try{
-       axios.post(`${baseUrl}/user/login`).then(data => {
-           console.log(data, 'data')
+       axios.post(`${baseUrl}/user/login`,user).then(data => {
+           console.log(data?.data, 'data')
+           localStorage.setItem('token', data?.data?.token)
+          return data?.data
        })
     }catch(err){
        return console.error(err, 'error')

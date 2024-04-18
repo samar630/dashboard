@@ -1,6 +1,4 @@
-import {  CREATE_USER, DELETE_USER, FETCH_ALL_USER, LOGIN, SET_LOADING } from "../constants/actionAuth"
-
-
+import {  CREATE_LOGIN, CREATE_USER, DELETE_USER, FETCH_ALL_USER, LOGIN, SET_LOADING } from "../constants/actionAuth"
 
   const initialState = {
     users : [],
@@ -9,7 +7,7 @@ import {  CREATE_USER, DELETE_USER, FETCH_ALL_USER, LOGIN, SET_LOADING } from ".
   }
   
 const reducerUser = (state = initialState, {type, payload}) => {
-  
+  console.log(payload, 'payload')
     switch(type) {
         case SET_LOADING:
             return {
@@ -28,11 +26,11 @@ const reducerUser = (state = initialState, {type, payload}) => {
         users: payload,
         loading: false
           }
-          case LOGIN:
-            return{
-              ...state,
-              token:payload,
-              loading:false
+          case CREATE_LOGIN:
+            return {
+          ...state,
+          users: payload,
+          loading: false
             }
       case DELETE_USER:
         return {

@@ -4,9 +4,6 @@ import mongoose from "mongoose";
 const productSchema = mongoose.Schema({
     productName: String,
     productQuantity: String,
-    totalWeight:Number,
-    number_of_service: Number,
-    image: String,
     category:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'categoriesSchema',
@@ -14,10 +11,9 @@ const productSchema = mongoose.Schema({
     },
     materialsWeight : [
         {
+            number_of_service: Number,
             materials_name: String,
-            unit:String,
-            materials_quantity: String,
-           
+            materials_quantity: String, 
             weight_multi_service: Number
         }
     ],

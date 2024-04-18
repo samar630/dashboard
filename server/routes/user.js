@@ -1,6 +1,6 @@
 import express from 'express';
 import multer from 'multer';
-import { createUser, deleteuser, getUser, login, updateUser } from '../controllers/user.js';
+import { createUser, deleteuser, getUser, getUserId, login, searchUser, updateUser } from '../controllers/user.js';
 const router = express.Router();
 const FILE_TYPE_MAP = {
     'image/png': 'png',
@@ -27,10 +27,12 @@ const storage = multer.diskStorage({
 
  const uploadOptions = multer({ storage: storage })
 router.get('/', getUser);
+router.get('/:id', getUserId);
+router.get('/search/:key', searchUser);
 router.post('/', createUser);
 router.post('/login', login);
-router.delete('/:id', deleteuser)
-router.put('/:id', updateUser)
+router.delete('/:id', deleteuser);
+// router.put('/:id', updateUser)
 
 
 

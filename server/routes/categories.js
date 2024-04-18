@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { createCategories, deleteCategories, getCategories, updateCategories } from '../controllers/categories.js'
+import { createCategories, deleteCategories, getCategories, getCategoriesId, searchCategories, updateCategories } from '../controllers/categories.js'
 import multer from 'multer';
 //put validation of image type 
 const FILE_TYPE_MAP = {
@@ -28,6 +28,8 @@ const storage = multer.diskStorage({
 const uploadOptions = multer({ storage: storage })
 const router = express.Router();
 router.get('/', getCategories);
+router.get('/:id', getCategoriesId)
+router.get('/search/:key', searchCategories)
 router.post('/', uploadOptions.single('image'), createCategories);
 router.delete('/:id', deleteCategories)
 router.put('/:id', updateCategories)

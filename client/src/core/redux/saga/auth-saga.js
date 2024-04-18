@@ -1,8 +1,8 @@
 import { put, call,takeLatest, takeEvery } from 'redux-saga/effects';
 import { createUser, deleteUser, fetchUser, login } from '../actions/actionAuth';
-import { CREATE_REQUESTED_USER, CREATE_USER, DELETE_REQUESTED_USER, DELETE_USER, FETCH_ALL_REQUESTED_USER, FETCH_ALL_USER, LOGIN, LOGIN_REQUESTED, SET_LOADING } from '../constants/actionAuth';
+import { CREATE_LOGIN, CREATE_REQUESTED_CREATE_LOGIN, CREATE_REQUESTED_USER, CREATE_USER, DELETE_REQUESTED_USER, DELETE_USER, FETCH_ALL_REQUESTED_USER, FETCH_ALL_USER, LOGIN, LOGIN_REQUESTED, SET_LOADING } from '../constants/actionAuth';
 
-import { forwardRef } from 'react';
+
 function* fetchUsers(){
     yield put({type: SET_LOADING})
     const categories = yield call(fetchUser)
@@ -13,17 +13,16 @@ function* fetchUsers(){
   function* createUsers({payload}){
     yield put({type: SET_LOADING})
     const users = yield call(createUser, payload?.users)
-
-    console.log(users,'newUser')
-
-    
+    console.log(users,'newUser')  
     yield put({type: CREATE_USER, payload: {users}})
   }
   function* loginUsers({payload}){
     yield put({type: SET_LOADING})
-    const user = yield call(login, payload?.payload)
-    console.log(user,'newUser')
-    yield put({type: LOGIN, payload: {user}})
+    console.log(payload, 'loginpayload')
+    const users = yield call(login, payload?.users)
+   
+    yield put({type: CREATE_LOGIN, payload: {users}})
+    console.log(users,'new datAa')
   }
 
   function* deleteUsers({payload}){
@@ -36,6 +35,6 @@ function* fetchUsers(){
   export default function* userSaga() {
     yield takeEvery(FETCH_ALL_REQUESTED_USER,fetchUsers )
     yield takeEvery(CREATE_REQUESTED_USER, createUsers)
-    yield takeEvery(LOGIN_REQUESTED, loginUsers)
+    yield takeEvery(CREATE_REQUESTED_CREATE_LOGIN, loginUsers)
     yield takeEvery(DELETE_REQUESTED_USER, deleteUsers)
   }

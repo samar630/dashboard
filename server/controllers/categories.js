@@ -14,6 +14,33 @@ export const getCategories = async (req, res) => {
         res.status(404).json({ message: error.message });
     }
 }
+export const getCategoriesId =  async (req, res) =>{
+    const Categories = await  categorySchema.findById(req.params.id)
+    try{
+      if(!Categories) {
+          return res.status(404).json({success: false , message: "user not found!"})
+      } 
+      res.status(200).send(Categories);
+    }catch(error){
+      res.status(404).json({ message: error.message });
+    }
+    
+  }
+  
+  
+  export const searchCategories = async(req, res) =>{
+      let data = await categorySchema.find(
+          {
+              "$or":[
+                  {"name":{$regex: req.params.key}},
+                  {"status":{$regex:req.params.key}},
+             
+              ]
+          },
+        
+      )
+      res.send(data)
+  }
 export const createCategories = async (req, res) => {
     const file = req.file;
     if(!file) return res.status(400).send('No image in the request')

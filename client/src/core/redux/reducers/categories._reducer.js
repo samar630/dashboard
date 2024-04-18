@@ -1,9 +1,10 @@
 
-import { FETCH_ALL_CATEGORIES, DELETE_CATEGORIES, CREATE_CATEGORIES, UPDATE_CATEGORIES, SET_LOADING } from '../constants/actionTypeCategories';
+import { FETCH_ALL_CATEGORIES, DELETE_CATEGORIES, CREATE_CATEGORIES, UPDATE_CATEGORIES, SET_LOADING, FETCH_ALL_CATEGORIES_BY_ID, FETCH_SEARCH_CATEGORIES } from '../constants/actionTypeCategories';
 
   const initialState = {
     categories : [],
-    loading :false
+    loading :false,
+    key:''
   }
   
 const reducerCategories= (state = initialState, {type, payload}) => {
@@ -26,6 +27,19 @@ const reducerCategories= (state = initialState, {type, payload}) => {
         categories: payload,
         loading: false
           }
+          case FETCH_ALL_CATEGORIES_BY_ID:
+            return{
+              ...state,
+              categories:payload,
+              loading:false
+            }
+            case FETCH_SEARCH_CATEGORIES:
+              return{
+                ...state,
+                key: payload,
+                 
+                loading:false
+              }
       case UPDATE_CATEGORIES:
         return{
             ...state,

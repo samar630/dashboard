@@ -15,22 +15,19 @@ export const getProducts = async (req, res) => {
     }
 }
 export const createProduct = async (req, res) => {
-    const file = req.file;
+    // const file = req.file;
     const category = await categorySchema.findById(req.body.category);
     if(!category) return res.status(400).send('Invalid Category')
-    if(!file) return res.status(400).send('No image in the request')
-    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
-    const fileName = file.filename;
+    // if(!file) return res.status(400).send('No image in the request')
+    // const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+    // const fileName = file.filename;
     const product = new productMaterial({
         productName: req.body.productName,
         productQuantity : req.body.productQuantity,
-        totalWeight : req.body.totalWeight,
         category: req.body.category,
         materialsWeight: req.body.materialsWeight,
-        number_of_service: req.body.number_of_service,
-        image: `${basePath}${fileName}`
+        // image: `${basePath}${fileName}`
     })
-
     try {
         await product.save();
         res.status(201).json(product);
